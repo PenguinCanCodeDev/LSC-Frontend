@@ -33,7 +33,7 @@ export default function SignIn() {
 
             <View style={{paddingVertical: 15}}>
                 <InputBox text="Email" placeholder="name @gmail.com" value={email} onChangeText={setEmail} />
-                <InputBoxPass text="Passowrd" placeholder="Enter your password" value={password} onChangeText={setPassword} />
+                <InputBoxPass text="Password" placeholder="Enter your password" value={password} onChangeText={setPassword} />
             </View>
           </View>
 
