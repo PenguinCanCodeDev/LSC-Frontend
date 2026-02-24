@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import CheckCircleIcon from '@/components/svgIcons/CheckCircleIcon';
 
 const CARD_WIDTH = Dimensions.get('window').width * 0.8;
 
@@ -37,7 +37,7 @@ export default function EventCard({
                     </View>
                     {completed && (
                         <View style={styles.checkCircle}>
-                            <Ionicons name="checkmark-circle" size={30} color="#4CAF50" />
+                            <CheckCircleIcon width={30} height={30} />
                         </View>
                     )}
                 </View>

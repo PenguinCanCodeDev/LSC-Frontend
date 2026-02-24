@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import PodcastIcon from '@/components/svgIcons/PodcastIcon';
+import YouTubeIcon from '@/components/svgIcons/YouTubeIcon';
 
 type MediaType = 'PODCAST' | 'YOUTUBE';
 
@@ -16,18 +17,15 @@ export default function CatchUpItem({ title, subtitle, type }: CatchUpItemProps)
     return (
         <View style={styles.container}>
             {/* Media icon */}
-            <View
-                style={[
-                    styles.iconCircle,
-                    { backgroundColor: isPodcast ? '#E8F5E9' : '#FFEBEE' },
-                ]}
-            >
-                <Ionicons
-                    name={isPodcast ? 'headset' : 'play'}
-                    size={20}
-                    color={isPodcast ? '#4CAF50' : '#F44336'}
-                />
-            </View>
+            {isPodcast ? (
+                <View style={styles.iconContainer}>
+                    <PodcastIcon width={42} height={42} />
+                </View>
+            ) : (
+                <View style={styles.iconContainer}>
+                    <YouTubeIcon width={42} height={30} />
+                </View>
+            )}
 
             {/* Text content */}
             <View style={styles.textContainer}>
@@ -76,6 +74,9 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.04,
         shadowRadius: 4,
         elevation: 1,
+    },
+    iconContainer: {
+        marginRight: 12,
     },
     iconCircle: {
         width: 42,
