@@ -2,30 +2,41 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import PodcastIcon from '@/components/svgIcons/PodcastIcon';
 import YouTubeIcon from '@/components/svgIcons/YouTubeIcon';
+import RadioIcon from '@/components/svgIcons/RadioIcon';
 
-type MediaType = 'PODCAST' | 'YOUTUBE';
+export type MediaType = 'PODCAST' | 'YOUTUBE' | 'RADIO';
 
 interface CatchUpItemProps {
     title: string;
     subtitle: string;
     type: MediaType;
+    containerStyle?: object;
 }
 
-export default function CatchUpItem({ title, subtitle, type }: CatchUpItemProps) {
-    const isPodcast = type === 'PODCAST';
+const MEDIA_CONFIG: Record<MediaType, { badgeColor: string; icon: React.ReactNode }> = {
+    PODCAST: {
+        badgeColor: '#0444B6',
+        icon: <PodcastIcon width={42} height={42} />,
+    },
+    YOUTUBE: {
+        badgeColor: '#0444B6',
+        icon: <YouTubeIcon width={42} height={30} />,
+    },
+    RADIO: {
+        badgeColor: '#0444B6',
+        icon: <RadioIcon width={42} height={42} />,
+    },
+};
+
+export default function CatchUpItem({ title, subtitle, type, containerStyle }: CatchUpItemProps) {
+    const config = MEDIA_CONFIG[type];
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, containerStyle]}>
             {/* Media icon */}
-            {isPodcast ? (
-                <View style={styles.iconContainer}>
-                    <PodcastIcon width={42} height={42} />
-                </View>
-            ) : (
-                <View style={styles.iconContainer}>
-                    <YouTubeIcon width={42} height={30} />
-                </View>
-            )}
+            <View style={styles.iconContainer}>
+                {config.icon}
+            </View>
 
             {/* Text content */}
             <View style={styles.textContainer}>
@@ -38,20 +49,8 @@ export default function CatchUpItem({ title, subtitle, type }: CatchUpItemProps)
             </View>
 
             {/* Badge */}
-            <View
-                style={[
-                    styles.badge,
-                    {
-                        borderColor: isPodcast ? '#4CAF50' : '#F44336',
-                    },
-                ]}
-            >
-                <Text
-                    style={[
-                        styles.badgeText,
-                        { color: isPodcast ? '#4CAF50' : '#F44336' },
-                    ]}
-                >
+            <View style={[styles.badge, { borderColor: config.badgeColor }]}>
+                <Text style={[styles.badgeText, { color: config.badgeColor }]}>
                     {type}
                 </Text>
             </View>
@@ -76,14 +75,6 @@ const styles = StyleSheet.create({
         elevation: 1,
     },
     iconContainer: {
-        marginRight: 12,
-    },
-    iconCircle: {
-        width: 42,
-        height: 42,
-        borderRadius: 21,
-        alignItems: 'center',
-        justifyContent: 'center',
         marginRight: 12,
     },
     textContainer: {
