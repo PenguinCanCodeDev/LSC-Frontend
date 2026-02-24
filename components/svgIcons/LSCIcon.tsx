@@ -1,16 +1,14 @@
 import * as React from "react"
 import Svg, {
-    Defs,
-    Image,
-    Path,
-    Pattern,
-    SvgProps,
-    Use,
+  Defs,
+  Image,
+  Path,
+  Pattern,
+  SvgProps,
+  Use,
 } from "react-native-svg"
 const LSCIcon = (props: SvgProps) => (
   <Svg
-    xmlns="http://www.w3.org/2000/svg"
-    xmlnsXlink="http://www.w3.org/1999/xlink"
     width={74}
     height={80}
     fill="none"

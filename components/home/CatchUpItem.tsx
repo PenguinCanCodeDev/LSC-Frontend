@@ -2,30 +2,44 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import PodcastIcon from '@/components/svgIcons/PodcastIcon';
 import YouTubeIcon from '@/components/svgIcons/YouTubeIcon';
+import RadioIcon from '@/components/svgIcons/RadioIcon';
+import { useTheme } from '@/context/ThemeContext';
 
-type MediaType = 'PODCAST' | 'YOUTUBE';
+export type MediaType = 'PODCAST' | 'YOUTUBE' | 'RADIO';
 
 interface CatchUpItemProps {
     title: string;
     subtitle: string;
     type: MediaType;
+    containerStyle?: object;
 }
 
-export default function CatchUpItem({ title, subtitle, type }: CatchUpItemProps) {
-    const isPodcast = type === 'PODCAST';
+const getMediaConfig = (colors: any): Record<MediaType, { badgeColor: string; icon: React.ReactNode }> => ({
+    PODCAST: {
+        badgeColor: colors.primary,
+        icon: <PodcastIcon width={42} height={42} />,
+    },
+    YOUTUBE: {
+        badgeColor: colors.primary,
+        icon: <YouTubeIcon width={42} height={30} />,
+    },
+    RADIO: {
+        badgeColor: colors.primary,
+        icon: <RadioIcon width={42} height={42} />,
+    },
+});
+
+export default function CatchUpItem({ title, subtitle, type, containerStyle }: CatchUpItemProps) {
+    const { colors } = useTheme();
+    const styles = getStyles(colors);
+    const config = getMediaConfig(colors)[type];
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, containerStyle]}>
             {/* Media icon */}
-            {isPodcast ? (
-                <View style={styles.iconContainer}>
-                    <PodcastIcon width={42} height={42} />
-                </View>
-            ) : (
-                <View style={styles.iconContainer}>
-                    <YouTubeIcon width={42} height={30} />
-                </View>
-            )}
+            <View style={styles.iconContainer}>
+                {config.icon}
+            </View>
 
             {/* Text content */}
             <View style={styles.textContainer}>
@@ -38,20 +52,8 @@ export default function CatchUpItem({ title, subtitle, type }: CatchUpItemProps)
             </View>
 
             {/* Badge */}
-            <View
-                style={[
-                    styles.badge,
-                    {
-                        borderColor: isPodcast ? '#4CAF50' : '#F44336',
-                    },
-                ]}
-            >
-                <Text
-                    style={[
-                        styles.badgeText,
-                        { color: isPodcast ? '#4CAF50' : '#F44336' },
-                    ]}
-                >
+            <View style={[styles.badge, { borderColor: config.badgeColor }]}>
+                <Text style={[styles.badgeText, { color: config.badgeColor }]}>
                     {type}
                 </Text>
             </View>
@@ -59,31 +61,23 @@ export default function CatchUpItem({ title, subtitle, type }: CatchUpItemProps)
     );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
     container: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#FFFFFF',
+        backgroundColor: colors.surface,
         borderRadius: 14,
         padding: 14,
         marginBottom: 10,
         borderWidth: 1,
-        borderColor: '#F0F0F0',
-        shadowColor: '#000',
+        borderColor: colors.border,
+        shadowColor: colors.shadow,
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.04,
         shadowRadius: 4,
         elevation: 1,
     },
     iconContainer: {
-        marginRight: 12,
-    },
-    iconCircle: {
-        width: 42,
-        height: 42,
-        borderRadius: 21,
-        alignItems: 'center',
-        justifyContent: 'center',
         marginRight: 12,
     },
     textContainer: {
@@ -93,12 +87,12 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 15,
         fontWeight: '600',
-        color: '#1A1A2E',
+        color: colors.text,
         marginBottom: 2,
     },
     subtitle: {
         fontSize: 12,
-        color: '#9CA3AF',
+        color: colors.tertiaryText,
     },
     badge: {
         borderWidth: 1.2,
