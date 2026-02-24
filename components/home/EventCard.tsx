@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import CheckCircleIcon from '@/components/svgIcons/CheckCircleIcon';
+import { useTheme } from '@/context/ThemeContext';
 
 const CARD_WIDTH = Dimensions.get('window').width * 0.8;
 
@@ -17,12 +18,16 @@ export default function EventCard({
     subtitle,
     tags,
     completed = false,
-    imageColor = '#D6DCE8',
+    imageColor,
 }: EventCardProps) {
+    const { colors } = useTheme();
+    const styles = getStyles(colors);
+    const finalImageColor = imageColor || colors.cardImagePlaceholder;
+
     return (
         <View style={styles.card}>
             {/* Image placeholder area */}
-            <View style={[styles.imagePlaceholder, { backgroundColor: imageColor }]} />
+            <View style={[styles.imagePlaceholder, { backgroundColor: finalImageColor }]} />
 
             {/* Content area */}
             <View style={styles.content}>
@@ -55,20 +60,20 @@ export default function EventCard({
     );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
     card: {
         width: CARD_WIDTH,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: colors.surface,
         borderRadius: 16,
         marginRight: 16,
         overflow: 'hidden',
-        shadowColor: '#000',
+        shadowColor: colors.shadow,
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.06,
         shadowRadius: 12,
         elevation: 2,
         borderWidth: 1,
-        borderColor: '#F0F0F0',
+        borderColor: colors.border,
     },
     imagePlaceholder: {
         width: '100%',
@@ -92,12 +97,12 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 16,
         fontWeight: '700',
-        color: '#1A1A2E',
+        color: colors.text,
         marginBottom: 3,
     },
     subtitle: {
         fontSize: 13,
-        color: '#6B7280',
+        color: colors.secondaryText,
     },
     checkCircle: {
         marginTop: 2,
@@ -112,13 +117,13 @@ const styles = StyleSheet.create({
         paddingVertical: 4,
         borderRadius: 4,
         borderWidth: 1,
-        borderColor: '#0444B6',
-        backgroundColor: '#FFFFFF',
+        borderColor: colors.primary,
+        backgroundColor: colors.surface,
     },
     tagText: {
         fontSize: 9,
         fontWeight: '500',
-        color: '#0444B6',
+        color: colors.primary,
         letterSpacing: 0.2,
     },
 });

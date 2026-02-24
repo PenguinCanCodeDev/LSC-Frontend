@@ -1,5 +1,6 @@
 import React from 'react';
 import Svg, { Path, Rect, G, Defs, ClipPath } from 'react-native-svg';
+import { useTheme } from '@/context/ThemeContext';
 
 interface WhatsAppIconProps {
     width?: number;
@@ -7,6 +8,7 @@ interface WhatsAppIconProps {
 }
 
 export default function WhatsAppIcon({ width = 36, height = 36 }: WhatsAppIconProps) {
+    const { colors } = useTheme();
     return (
         <Svg width={width} height={height} viewBox="0 0 36 36" fill="none">
             <Defs>
@@ -17,11 +19,11 @@ export default function WhatsAppIcon({ width = 36, height = 36 }: WhatsAppIconPr
             <G clipPath="url(#clip0_79_131)">
                 <Path
                     d="M30.6 0H5.4C2.41766 0 0 2.41766 0 5.4V30.6C0 33.5823 2.41766 36 5.4 36H30.6C33.5823 36 36 33.5823 36 30.6V5.4C36 2.41766 33.5823 0 30.6 0Z"
-                    fill="#25D366"
+                    fill={colors.whatsappGreen}
                 />
                 <Path
                     d="M8.64888 27.6329L9.63326 23.0626C8.36805 21.067 7.87449 18.6783 8.24517 16.3447C8.61586 14.0111 9.82532 11.893 11.6466 10.3877C13.468 8.88238 15.776 8.0934 18.1376 8.16876C20.4993 8.24412 22.7523 9.17864 24.4739 10.797C26.1956 12.4153 27.2675 14.6063 27.4887 16.9588C27.7098 19.3112 27.065 21.6636 25.6751 23.5744C24.2853 25.4853 22.2459 26.8234 19.9397 27.3375C17.6334 27.8517 15.2188 27.5067 13.1489 26.3672L8.64888 27.6329Z"
-                    fill="#25D366"
+                    fill={colors.whatsappGreen}
                     stroke="white"
                     strokeWidth="1.82812"
                 />

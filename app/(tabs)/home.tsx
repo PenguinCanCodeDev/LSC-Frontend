@@ -11,6 +11,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import NotificationIcon from '@/components/svgIcons/NotificationIcon';
 import EventCard from '@/components/home/EventCard';
 import CatchUpItem from '@/components/home/CatchUpItem';
+import { useTheme } from '@/context/ThemeContext';
+import { useIsFocused } from '@react-navigation/native';
 
 const EVENTS_DATA = [
     {
@@ -58,9 +60,18 @@ const CATCH_UP_DATA = [
 const BLUE_BG_HEIGHT = 280;
 
 export default function HomeScreen() {
+    const { colors, theme } = useTheme();
+    const styles = getStyles(colors);
+    const isFocused = useIsFocused();
+
     return (
         <View style={styles.rootContainer}>
-            <StatusBar barStyle="light-content" backgroundColor="#012265" />
+            {isFocused && (
+                <StatusBar
+                    barStyle="light-content"
+                    backgroundColor={colors.primaryDark}
+                />
+            )}
 
             {/* Blue background layer */}
             <View style={styles.blueBackground} />
@@ -119,10 +130,10 @@ export default function HomeScreen() {
     );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
     rootContainer: {
         flex: 1,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: colors.background,
     },
     blueBackground: {
         position: 'absolute',
@@ -130,7 +141,7 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         height: BLUE_BG_HEIGHT,
-        backgroundColor: '#012265',
+        backgroundColor: colors.primaryDark,
         zIndex: 0,
     },
     safeArea: {
@@ -158,7 +169,7 @@ const styles = StyleSheet.create({
     },
     subGreeting: {
         fontSize: 15,
-        color: '#B0C4DE',
+        color: colors.primaryLight,
         marginTop: 2,
     },
     eventsSectionContainer: {
@@ -180,7 +191,7 @@ const styles = StyleSheet.create({
     sectionTitle: {
         fontSize: 18,
         fontWeight: '700',
-        color: '#0A2463',
+        color: colors.text,
         marginBottom: 12,
     },
     eventsListContent: {

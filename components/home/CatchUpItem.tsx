@@ -3,6 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import PodcastIcon from '@/components/svgIcons/PodcastIcon';
 import YouTubeIcon from '@/components/svgIcons/YouTubeIcon';
 import RadioIcon from '@/components/svgIcons/RadioIcon';
+import { useTheme } from '@/context/ThemeContext';
 
 export type MediaType = 'PODCAST' | 'YOUTUBE' | 'RADIO';
 
@@ -13,23 +14,25 @@ interface CatchUpItemProps {
     containerStyle?: object;
 }
 
-const MEDIA_CONFIG: Record<MediaType, { badgeColor: string; icon: React.ReactNode }> = {
+const getMediaConfig = (colors: any): Record<MediaType, { badgeColor: string; icon: React.ReactNode }> => ({
     PODCAST: {
-        badgeColor: '#0444B6',
+        badgeColor: colors.primary,
         icon: <PodcastIcon width={42} height={42} />,
     },
     YOUTUBE: {
-        badgeColor: '#0444B6',
+        badgeColor: colors.primary,
         icon: <YouTubeIcon width={42} height={30} />,
     },
     RADIO: {
-        badgeColor: '#0444B6',
+        badgeColor: colors.primary,
         icon: <RadioIcon width={42} height={42} />,
     },
-};
+});
 
 export default function CatchUpItem({ title, subtitle, type, containerStyle }: CatchUpItemProps) {
-    const config = MEDIA_CONFIG[type];
+    const { colors } = useTheme();
+    const styles = getStyles(colors);
+    const config = getMediaConfig(colors)[type];
 
     return (
         <View style={[styles.container, containerStyle]}>
@@ -58,17 +61,17 @@ export default function CatchUpItem({ title, subtitle, type, containerStyle }: C
     );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
     container: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#FFFFFF',
+        backgroundColor: colors.surface,
         borderRadius: 14,
         padding: 14,
         marginBottom: 10,
         borderWidth: 1,
-        borderColor: '#F0F0F0',
-        shadowColor: '#000',
+        borderColor: colors.border,
+        shadowColor: colors.shadow,
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.04,
         shadowRadius: 4,
@@ -84,12 +87,12 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 15,
         fontWeight: '600',
-        color: '#1A1A2E',
+        color: colors.text,
         marginBottom: 2,
     },
     subtitle: {
         fontSize: 12,
-        color: '#9CA3AF',
+        color: colors.tertiaryText,
     },
     badge: {
         borderWidth: 1.2,

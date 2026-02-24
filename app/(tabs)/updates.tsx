@@ -11,6 +11,8 @@ import NotificationIcon from '@/components/svgIcons/NotificationIcon';
 import FilterIcon from '@/components/svgIcons/FilterIcon';
 import CatchUpItem from '@/components/home/CatchUpItem';
 import type { MediaType } from '@/components/home/CatchUpItem';
+import { useTheme } from '@/context/ThemeContext';
+import { useIsFocused } from '@react-navigation/native';
 
 const BLUE_BG_HEIGHT = 100;
 
@@ -48,9 +50,18 @@ const UPDATES_DATA: { id: string; title: string; subtitle: string; type: MediaTy
 ];
 
 export default function Updates() {
+    const { colors, theme } = useTheme();
+    const styles = getStyles(colors);
+    const isFocused = useIsFocused();
+
     return (
         <View style={styles.rootContainer}>
-            <StatusBar barStyle="light-content" backgroundColor="#012265" />
+            {isFocused && (
+                <StatusBar
+                    barStyle="light-content"
+                    backgroundColor={colors.primaryDark}
+                />
+            )}
 
             {/* Blue background layer */}
             <View style={styles.blueBackground} />
@@ -104,10 +115,10 @@ export default function Updates() {
     );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
     rootContainer: {
         flex: 1,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: colors.background,
     },
     blueBackground: {
         position: 'absolute',
@@ -117,7 +128,7 @@ const styles = StyleSheet.create({
         height: 80,
         borderBottomLeftRadius: 10,
         borderBottomRightRadius: 10,
-        backgroundColor: '#012265',
+        backgroundColor: colors.primaryDark,
         zIndex: 0,
     },
     safeArea: {
@@ -139,7 +150,7 @@ const styles = StyleSheet.create({
     },
     subGreeting: {
         fontSize: 15,
-        color: '#B0C4DE',
+        color: colors.primaryLight,
         marginTop: 2,
     },
     scrollView: {
@@ -159,11 +170,11 @@ const styles = StyleSheet.create({
     updatesTitle: {
         fontSize: 24,
         fontWeight: '700',
-        color: '#1A1A2E',
+        color: colors.text,
     },
     updatesSubtitle: {
         fontSize: 14,
-        color: '#6B7280',
+        color: colors.secondaryText,
         marginTop: 2,
     },
     pillContainer: {
@@ -171,7 +182,7 @@ const styles = StyleSheet.create({
         paddingVertical: 8,
     },
     comingUpPill: {
-        backgroundColor: '#326BFE',
+        backgroundColor: colors.comingUpPill,
         alignSelf: 'flex-start',
         paddingHorizontal: 14,
         paddingVertical: 6,
@@ -183,7 +194,7 @@ const styles = StyleSheet.create({
     comingUpText: {
         fontSize: 12,
         fontWeight: '700',
-        color: '#FFFFFF',
+        color: '#FFFFFF', // Keep pill text white always
     },
     listContainer: {
         paddingHorizontal: 16,

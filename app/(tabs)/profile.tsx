@@ -13,32 +13,44 @@ import YouTubeIcon from '@/components/svgIcons/YouTubeIcon';
 import PodcastIcon from '@/components/svgIcons/PodcastIcon';
 import WhatsAppIcon from '@/components/svgIcons/WhatsAppIcon';
 import EditProfileIcon from '@/components/svgIcons/EditProfileIcon';
+import { useTheme } from '@/context/ThemeContext';
+import { useIsFocused } from '@react-navigation/native';
 
 const SOCIAL_LINKS = [
     {
         id: '1',
         title: 'BIU L300 Channel',
         subtitle: 'WhatsApp Channel',
-        icon: <WhatsAppIcon width={38} height={38} />,
+        icon: <WhatsAppIcon width={34} height={34} />,
     },
     {
         id: '2',
         title: 'BIU Leadership300 (L300)',
         subtitle: 'YouTube',
-        icon: <YouTubeIcon width={38} height={27} />,
+        icon: <YouTubeIcon width={34} height={24} />,
     },
     {
         id: '3',
         title: 'LetsTalkPodcast',
         subtitle: 'Podcast LinkTree',
-        icon: <PodcastIcon width={38} height={38} />,
+        icon: <PodcastIcon width={34} height={34} />,
     },
 ];
 
 export default function ProfileScreen() {
+    const { colors, theme, toggleTheme } = useTheme();
+    const styles = getStyles(colors);
+    const isFocused = useIsFocused();
+
     return (
         <SafeAreaView style={styles.safeArea}>
-            <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+            {isFocused && (
+                <StatusBar
+                    barStyle={theme === 'dark' ? "light-content" : "dark-content"}
+                    backgroundColor={colors.background}
+                />
+            )}
+
             <ScrollView
                 style={styles.scrollView}
                 contentContainerStyle={styles.scrollContent}
@@ -46,9 +58,9 @@ export default function ProfileScreen() {
             >
                 {/* Profile Header */}
                 <View style={styles.profileHeader}>
-                    {/* Avatar */}
+                    {/* Placeholder for Avatar */}
                     <View style={styles.avatarCircle}>
-                        <Ionicons name="person-outline" size={40} color="#9CA3AF" />
+                        <Ionicons name="person-outline" size={40} color={colors.tertiaryText} />
                     </View>
 
                     {/* Name */}
@@ -59,13 +71,28 @@ export default function ProfileScreen() {
                         <Text style={styles.levelBadgeText}>L300</Text>
                     </View>
 
-                    {/* Edit profile */}
-                    <TouchableOpacity style={styles.editProfileButton}>
-                        <Text style={styles.editProfileText}>Edit profile</Text>
-                        <View style={{ marginLeft: 6 }}>
-                            <EditProfileIcon width={15} height={15} />
-                        </View>
-                    </TouchableOpacity>
+                    {/* Action buttons (Edit Profile + Theme Toggle) */}
+                    <View style={styles.actionRowContainer}>
+                        {/* Edit profile */}
+                        <TouchableOpacity style={styles.editProfileButton}>
+                            <Text style={styles.editProfileText}>Edit profile</Text>
+                            <View style={{ marginLeft: 6 }}>
+                                <EditProfileIcon width={15} height={15} />
+                            </View>
+                        </TouchableOpacity>
+
+                        {/* Theme Toggle */}
+                        <TouchableOpacity
+                            style={styles.themeToggleBtn}
+                            onPress={toggleTheme}
+                        >
+                            <Ionicons
+                                name={theme === 'dark' ? "sunny-outline" : "moon-outline"}
+                                size={18}
+                                color={colors.primary}
+                            />
+                        </TouchableOpacity>
+                    </View>
                 </View>
 
                 {/* Grey container behind cards */}
@@ -111,7 +138,7 @@ export default function ProfileScreen() {
                                     <Text style={styles.socialTitle}>{link.title}</Text>
                                     <Text style={styles.socialSubtitle}>{link.subtitle}</Text>
                                 </View>
-                                <Ionicons name="open-outline" size={20} color="#0444B6" />
+                                <Ionicons name="open-outline" size={20} color={colors.primary} />
                             </TouchableOpacity>
                         ))}
                     </View>
@@ -120,17 +147,17 @@ export default function ProfileScreen() {
                 {/* Log out */}
                 <TouchableOpacity style={styles.logoutButton}>
                     <Text style={styles.logoutText}>Log out</Text>
-                    <Ionicons name="log-out-outline" size={18} color="#F44336" style={{ marginLeft: 4 }} />
+                    <Ionicons name="log-out-outline" size={18} color={colors.error} style={{ marginLeft: 4 }} />
                 </TouchableOpacity>
             </ScrollView>
         </SafeAreaView >
     );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
     safeArea: {
         flex: 1,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: colors.background,
     },
     scrollView: {
         flex: 1,
@@ -141,7 +168,7 @@ const styles = StyleSheet.create({
 
     // Grey container for cards
     cardsWrapper: {
-        backgroundColor: '#F2F2F2',
+        backgroundColor: colors.surfaceSecondary,
         borderRadius: 20,
         paddingVertical: 20,
         paddingHorizontal: 8,
@@ -159,7 +186,7 @@ const styles = StyleSheet.create({
         width: 80,
         height: 80,
         borderRadius: 40,
-        backgroundColor: '#F2F2F2',
+        backgroundColor: colors.surfaceTertiary,
         alignItems: 'center',
         justifyContent: 'center',
         marginBottom: 12,
@@ -167,11 +194,11 @@ const styles = StyleSheet.create({
     profileName: {
         fontSize: 20,
         fontWeight: '700',
-        color: '#1A1A2E',
+        color: colors.text,
         marginBottom: 8,
     },
     levelBadge: {
-        backgroundColor: '#0444B6',
+        backgroundColor: colors.primary,
         paddingHorizontal: 20,
         paddingVertical: 6,
         borderRadius: 20,
@@ -180,13 +207,18 @@ const styles = StyleSheet.create({
     levelBadgeText: {
         fontSize: 14,
         fontWeight: '700',
-        color: '#FFFFFF',
+        color: colors.surface,
+    },
+    actionRowContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 12,
     },
     editProfileButton: {
         flexDirection: 'row',
         alignItems: 'center',
         borderWidth: 1,
-        borderColor: '#0444B6',
+        borderColor: colors.primary,
         borderRadius: 20,
         paddingHorizontal: 14,
         paddingVertical: 6,
@@ -194,20 +226,29 @@ const styles = StyleSheet.create({
     editProfileText: {
         fontSize: 13,
         fontWeight: '500',
-        color: '#0444B6',
+        color: colors.primary,
+    },
+    themeToggleBtn: {
+        width: 34,
+        height: 34,
+        borderRadius: 17,
+        borderWidth: 1,
+        borderColor: colors.primary,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
 
     // Info Card
     infoCard: {
         marginTop: -30,
         marginBottom: 15,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: colors.surface,
         borderRadius: 14,
         borderWidth: 1,
-        borderColor: '#F0F0F0',
+        borderColor: colors.border,
         padding: 16,
         paddingVertical: 20,
-        shadowColor: '#000',
+        shadowColor: colors.shadow,
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.04,
         shadowRadius: 6,
@@ -223,23 +264,23 @@ const styles = StyleSheet.create({
     infoLabel: {
         fontSize: 12,
         fontWeight: '600',
-        color: '#0444B6',
+        color: colors.primary,
         marginBottom: 4,
     },
     infoValue: {
         fontSize: 14,
         fontWeight: '500',
-        color: '#1A1A2E',
+        color: colors.text,
     },
 
     // Connect Section
     connectSection: {
         marginTop: 8,
         marginBottom: -30,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: colors.surface,
         borderRadius: 14,
         padding: 16,
-        shadowColor: '#000',
+        shadowColor: colors.shadow,
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.04,
         shadowRadius: 6,
@@ -248,12 +289,12 @@ const styles = StyleSheet.create({
     connectTitle: {
         fontSize: 16,
         fontWeight: '700',
-        color: '#0444B6',
+        color: colors.primary,
         marginBottom: 4,
     },
     connectSubtitle: {
         fontSize: 13,
-        color: '#6B7280',
+        color: colors.secondaryText,
         marginBottom: 16,
         lineHeight: 18,
     },
@@ -271,12 +312,12 @@ const styles = StyleSheet.create({
     socialTitle: {
         fontSize: 15,
         fontWeight: '600',
-        color: '#1A1A2E',
+        color: colors.text,
         marginBottom: 2,
     },
     socialSubtitle: {
         fontSize: 12,
-        color: '#9CA3AF',
+        color: colors.tertiaryText,
     },
 
     // Logout
@@ -289,6 +330,6 @@ const styles = StyleSheet.create({
     logoutText: {
         fontSize: 15,
         fontWeight: '600',
-        color: '#F44336',
+        color: colors.error,
     },
 });
