@@ -8,7 +8,7 @@ import {
     StatusBar,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Ionicons } from '@expo/vector-icons';
+import NotificationIcon from '@/components/svgIcons/NotificationIcon';
 import EventCard from '@/components/home/EventCard';
 import CatchUpItem from '@/components/home/CatchUpItem';
 
@@ -54,68 +54,88 @@ const CATCH_UP_DATA = [
     },
 ];
 
+// Height of the blue background - covers status bar, safe area, header, section title, and ~60% of cards
+const BLUE_BG_HEIGHT = 280;
+
 export default function HomeScreen() {
     return (
-        <SafeAreaView style={styles.safeArea}>
-            <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
-            <ScrollView
-                style={styles.scrollView}
-                contentContainerStyle={styles.scrollContent}
-                showsVerticalScrollIndicator={false}
-            >
-                {/* Header */}
-                <View style={styles.header}>
-                    <View>
-                        <Text style={styles.greeting}>Hey L300 Champion,</Text>
-                        <Text style={styles.subGreeting}>What's good?</Text>
-                    </View>
-                    <View style={styles.contactIcon}>
-                        <Ionicons name="people" size={20} color="#FFFFFF" />
-                    </View>
-                </View>
+        <View style={styles.rootContainer}>
+            <StatusBar barStyle="light-content" backgroundColor="#012265" />
 
-                {/* Upcoming Events */}
-                <View style={styles.sectionContainer}>
-                    <Text style={styles.sectionTitle}>Upcoming Events</Text>
-                    <FlatList
-                        data={EVENTS_DATA}
-                        keyExtractor={(item) => item.id}
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                        contentContainerStyle={styles.eventsListContent}
-                        renderItem={({ item }) => (
-                            <EventCard
+            {/* Blue background layer */}
+            <View style={styles.blueBackground} />
+
+            <SafeAreaView style={styles.safeArea}>
+                <ScrollView
+                    style={styles.scrollView}
+                    contentContainerStyle={styles.scrollContent}
+                    showsVerticalScrollIndicator={false}
+                >
+                    {/* Header */}
+                    <View style={styles.header}>
+                        <View>
+                            <Text style={styles.greeting}>Hey L300 Champion,</Text>
+                            <Text style={styles.subGreeting}>What's good?</Text>
+                        </View>
+                        <NotificationIcon width={40} height={40} />
+                    </View>
+
+                    {/* Upcoming Events */}
+                    <View style={styles.eventsSectionContainer}>
+                        <Text style={styles.eventsSectionTitle}>Upcoming Events</Text>
+                        <FlatList
+                            data={EVENTS_DATA}
+                            keyExtractor={(item) => item.id}
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            contentContainerStyle={styles.eventsListContent}
+                            renderItem={({ item }) => (
+                                <EventCard
+                                    title={item.title}
+                                    subtitle={item.subtitle}
+                                    tags={item.tags}
+                                    completed={item.completed}
+                                    imageColor={item.imageColor}
+                                />
+                            )}
+                        />
+                    </View>
+
+                    {/* Catch Up */}
+                    <View style={styles.sectionContainer}>
+                        <Text style={styles.sectionTitle}>Catch Up</Text>
+                        {CATCH_UP_DATA.map((item) => (
+                            <CatchUpItem
+                                key={item.id}
                                 title={item.title}
                                 subtitle={item.subtitle}
-                                tags={item.tags}
-                                completed={item.completed}
-                                imageColor={item.imageColor}
+                                type={item.type}
                             />
-                        )}
-                    />
-                </View>
-
-                {/* Catch Up */}
-                <View style={styles.sectionContainer}>
-                    <Text style={styles.sectionTitle}>Catch Up</Text>
-                    {CATCH_UP_DATA.map((item) => (
-                        <CatchUpItem
-                            key={item.id}
-                            title={item.title}
-                            subtitle={item.subtitle}
-                            type={item.type}
-                        />
-                    ))}
-                </View>
-            </ScrollView>
-        </SafeAreaView>
+                        ))}
+                    </View>
+                </ScrollView>
+            </SafeAreaView>
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
-    safeArea: {
+    rootContainer: {
         flex: 1,
         backgroundColor: '#FFFFFF',
+    },
+    blueBackground: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        height: BLUE_BG_HEIGHT,
+        backgroundColor: '#012265',
+        zIndex: 0,
+    },
+    safeArea: {
+        flex: 1,
+        zIndex: 1,
     },
     scrollView: {
         flex: 1,
@@ -127,41 +147,44 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        paddingHorizontal: 20,
+        paddingHorizontal: 16,
         paddingTop: 10,
         paddingBottom: 16,
     },
     greeting: {
         fontSize: 22,
         fontWeight: '700',
-        color: '#0A2463',
+        color: '#FFFFFF',
     },
     subGreeting: {
         fontSize: 15,
-        color: '#6B7280',
+        color: '#B0C4DE',
         marginTop: 2,
     },
-    contactIcon: {
-        width: 40,
-        height: 40,
-        borderRadius: 20,
-        backgroundColor: '#0A2463',
-        alignItems: 'center',
-        justifyContent: 'center',
+    eventsSectionContainer: {
+        marginTop: 8,
+        marginBottom: 8,
+    },
+    eventsSectionTitle: {
+        fontSize: 18,
+        fontWeight: '700',
+        color: '#FFFFFF',
+        marginLeft: 16,
+        marginBottom: 12,
     },
     sectionContainer: {
-        marginTop: 10,
-        marginBottom: 10,
+        marginTop: 8,
+        marginBottom: 8,
+        paddingHorizontal: 16,
     },
     sectionTitle: {
         fontSize: 18,
         fontWeight: '700',
         color: '#0A2463',
-        marginLeft: 20,
-        marginBottom: 14,
+        marginBottom: 12,
     },
     eventsListContent: {
-        paddingLeft: 20,
+        paddingLeft: 16,
         paddingRight: 4,
     },
 });
