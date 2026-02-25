@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as SystemUI from 'expo-system-ui';
 import { Colors } from '@/constants/color-scheme/colors';
 
 type ThemeType = 'light' | 'dark';
@@ -54,6 +55,12 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     };
 
     const colors = Colors[theme];
+
+    // Update the root view background color to match the tab bar
+    // so the space behind the Android navigation bar looks seamless
+    useEffect(() => {
+        SystemUI.setBackgroundColorAsync(colors.surface);
+    }, [theme, colors.surface]);
 
     return (
         <ThemeContext.Provider value={{ theme, colors, toggleTheme, setTheme }}>
