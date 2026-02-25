@@ -1,50 +1,59 @@
-# Welcome to your Expo app 👋
+# LSC-Frontend 🚀
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Welcome to **LSC-Frontend**, a modern React Native cross-platform application built with [Expo](https://expo.dev) and [Expo Router](https://docs.expo.dev/router/introduction).
 
-## Get started
+## ✨ Features
 
-1. Install dependencies
+- **Tab Navigation:** Seamless file-based routing with tab navigation (`Home`, `Updates`, `Messages`, `Profile`) using `expo-router`.
+- **Custom UI Components:** Beautifully designed screens with custom cards (`EventCard`, `CatchUpItem`) and layout configurations.
+- **Custom SVG Icons:** High-quality, scalable vector icons configured to accept dynamic colors.
+- **Persistent Theming:** Built-in Light and Dark mode! Dynamic theming is controlled via a custom `ThemeContext` and user preferences are persistently saved using `@react-native-async-storage/async-storage`.
 
-   ```bash
-   npm install
-   ```
+## 🛠️ Tech Stack
 
-2. Start the app
+- **Framework:** [React Native](https://reactnative.dev/) & [Expo](https://expo.dev/) (SDK 54)
+- **Navigation:** [Expo Router](https://docs.expo.dev/router/introduction) (File-based routing)
+- **Language:** [TypeScript](https://www.typescriptlang.org/)
+- **Storage:** [AsyncStorage](https://react-native-async-storage.github.io/async-storage/)
+- **Icons:** [React Native SVG](https://github.com/software-mansion/react-native-svg) & [Expo Vector Icons](https://docs.expo.dev/guides/icons/)
 
-   ```bash
-   npx expo start
-   ```
+## 🚀 Getting Started
 
-In the output, you'll find options to open the app in a
+### 1. Install Dependencies
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+Clone the repository and install the required dependencies:
 
 ```bash
-npm run reset-project
+npm install
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### 2. Start the Development Server
 
-## Learn more
+Start the Expo development server to launch the app:
 
-To learn more about developing your project with Expo, look at the following resources:
+```bash
+npx expo start
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+In the terminal output, you'll find options to open the app:
+- Press `a` to open in an **Android emulator**
+- Press `i` to open in an **iOS simulator**
+- Or scan the QR code with the **Expo Go** app on your physical device.
 
-## Join the community
+## 📁 Project Structure
 
-Join our community of developers creating universal apps.
+This project uses file-based routing via the **app** directory:
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- `app/(tabs)/` - Contains the main tab screens (Home, Updates, Messages, Profile).
+- `app/(onboarding)/` - Contains authentication and onboarding flows.
+- `components/` - Reusable UI components and custom SVG icons.
+- `context/` - Global state providers, including `ThemeContext` for managing the light/dark mode.
+- `constants/` - Application constants, including the centralized `colors.ts` theme definitions.
+
+## 🤝 Contributing
+
+When developing, make sure all new UI components reference `useTheme()` and `getStyles(colors)` to ensure full compatibility with the dynamic light/dark mode system.
+
+## 📄 License
+
+This project is licensed under the MIT License.
