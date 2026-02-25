@@ -3,7 +3,7 @@ import InputBoxPass from "@/components/Reusables/inputBoxPass";
 import LSCIcon from "@/components/svgIcons/LSCIcon";
 import { Link, useRouter } from "expo-router";
 import { useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function SignUp() {
     const [firstLastName, setFirstLastNmae] = useState<string>('')
@@ -17,15 +17,23 @@ export default function SignUp() {
 
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 25}
+    >
 
      <View style={styles.header} />
 
       {/* INPUT DETAILS CONTAINER */}
       <View style={styles.whitebox}>
-      <LSCIcon style={{alignSelf: 'center', position: 'absolute', top: 40}} />
+      <LSCIcon style={{alignSelf: 'center', marginTop: 40}} />
 
-
+       <ScrollView
+         style={{width: '100%'}}
+         contentContainerStyle={styles.scrollContent}
+         keyboardShouldPersistTaps = 'handled'
+         showsVerticalScrollIndicator = {false}
+         >
         <View style={styles.authbox}>
 
           <View style={styles.textBox}>
@@ -35,7 +43,7 @@ export default function SignUp() {
             <View style={{paddingVertical: 15}}>
                 <InputBox text="First Name and Last Name" placeholder="John Doe" value={firstLastName} onChangeText={setFirstLastNmae} />
                 <InputBox text="Email" placeholder="name @gmail.com" value={email} onChangeText={setEmail} />
-                <InputBoxPass text="Passowrd" placeholder="Enter your password" value={password} onChangeText={setPassword} />
+                <InputBoxPass text="Password" placeholder="Enter your password" value={password} onChangeText={setPassword} />
                 <InputBoxPass text="Confirm password" placeholder="Re-enter your password" value={confirmPass} onChangeText={setConfirmPass} />
             </View>
           </View>
@@ -55,12 +63,14 @@ export default function SignUp() {
           </View>
 
         </View>
+
+        </ScrollView>
   
 
       </View>
 
 
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -69,7 +79,7 @@ export default function SignUp() {
 const styles = StyleSheet.create({
      container : {
       backgroundColor: '#012265',
-      height: '100%',  
+      flex: 1, 
      },
 
      header : {
@@ -88,8 +98,7 @@ const styles = StyleSheet.create({
      authbox:{
       width: 330,
       height: 600,
-      position: 'absolute',
-      top: 150,
+      marginTop: 20
      },
 
      textBox : {
@@ -100,9 +109,8 @@ const styles = StyleSheet.create({
 
      buttonbox:{
       width: 320,
-      height: 200,
       alignSelf: 'center',
-      paddingVertical: 40,
+      paddingVertical: 50,
       flex: 1,
       justifyContent: 'flex-end',
      },
@@ -114,5 +122,11 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       marginVertical: 8
      },
+
+     scrollContent: {
+        width: 330,
+        alignSelf: 'center',
+        paddingBottom: 40,
+    },
 
 })

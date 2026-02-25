@@ -4,7 +4,7 @@ import BackIcon from "@/components/svgIcons/backIcon";
 import LSCIcon from "@/components/svgIcons/LSCIcon";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function ProfileReg() {
 
@@ -19,13 +19,22 @@ export default function ProfileReg() {
 
 
   return (
-    <View style={styles.container}>
-
+    <KeyboardAvoidingView style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 25}
+    >
      <View style={styles.header} />
 
       {/* INPUT DETAILS CONTAINER */}
       <View style={styles.whitebox}>
-      <LSCIcon style={{alignSelf: 'center', position: 'absolute', top: 40}} />
+      <LSCIcon style={{alignSelf: 'center', marginTop: 40}} />
+
+      <ScrollView
+         style={{width: '100%'}}
+         contentContainerStyle={styles.scrollContent}
+         keyboardShouldPersistTaps = 'handled'
+         showsVerticalScrollIndicator = {false}
+         >
 
 
         <View style={styles.authbox}>
@@ -59,64 +68,69 @@ export default function ProfileReg() {
           </View>
 
         </View>
+
+        </ScrollView>
   
 
       </View>
 
 
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
 
 
 const styles = StyleSheet.create({
-     container : {
-      backgroundColor: '#012265',
-      height: '100%',  
-     },
-
-     header : {
-        paddingVertical: 50
-     },
-
-
-     whitebox: {
-      backgroundColor: '#fff',  
-      height: '100%',
-      borderTopRightRadius: 200,
-      borderTopLeftRadius: 200,
-      alignItems: 'center'
-     },
-
-     authbox:{
-      width: 330,
-      height: 600,
-      position: 'absolute',
-      top: 150,
-     },
-
-     textBox : {
-       paddingHorizontal: 4,
-       paddingVertical: 20,
-       height: 430,
-     },
-
-     buttonbox:{
-      width: 320,
-      height: 200,
-      alignSelf: 'center',
-      paddingVertical: 40,
-      flex: 1,
-      justifyContent: 'flex-end'
-     },
-
-     buttonOne: {
-      backgroundColor: '#326BFE',
-      borderRadius: 25,
-      padding: 16,
-      alignItems: 'center',
-      marginVertical: 8
-     },
+    container : {
+        backgroundColor: '#012265',
+        flex: 1, 
+       },
+  
+       header : {
+          paddingVertical: 50
+       },
+  
+  
+       whitebox: {
+        backgroundColor: '#fff',  
+        height: '100%',
+        borderTopRightRadius: 200,
+        borderTopLeftRadius: 200,
+        alignItems: 'center'
+       },
+  
+       authbox:{
+        width: 330,
+        height: 600,
+       },
+  
+       textBox : {
+         paddingHorizontal: 4,
+         paddingVertical: 30,
+         height: 430,
+       },
+  
+       buttonbox:{
+        width: 320,
+        alignSelf: 'center',
+        paddingVertical: 50,
+        flex: 1,
+        justifyContent: 'flex-end',
+       },
+  
+       buttonOne: {
+        backgroundColor: '#326BFE',
+        borderRadius: 25,
+        padding: 16,
+        alignItems: 'center',
+        marginVertical: 8
+       },
+  
+       scrollContent: {
+          width: 330,
+          alignSelf: 'center',
+          paddingBottom: 40,
+      },
 
 })
