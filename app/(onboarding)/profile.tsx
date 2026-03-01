@@ -18,6 +18,7 @@ export default function ProfileReg() {
   const [department, setDepartment] = useState<string>("");
   const [matNo, setMatNo] = useState<string>("");
   const [faculty, setFaculty] = useState<string>("");
+  const [level, setLevel] = useState<string>("");
   const [campus, setCampus] = useState<string>("");
 
   const route = useRouter();
@@ -74,6 +75,12 @@ export default function ProfileReg() {
                   value={faculty}
                   onChangeText={setFaculty}
                 />
+                <InputBox
+                  text="Level"
+                  placeholder="300"
+                  value={level}
+                  onChangeText={setLevel}
+                />
                 <CampusModal
                   text="Campus"
                   placeholder="select"
@@ -129,16 +136,13 @@ const styles = StyleSheet.create({
 
   textBox: {
     paddingHorizontal: 4,
-    paddingVertical: 30,
-    height: 430,
+    paddingVertical: 2,
   },
 
   buttonbox: {
     width: 320,
     alignSelf: "center",
-    paddingVertical: 50,
-    flex: 1,
-    justifyContent: "flex-end",
+    paddingBottom: 6
   },
 
   buttonOne: {
@@ -146,7 +150,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     padding: 16,
     alignItems: "center",
-    marginVertical: 8,
+    marginVertical: 2,
   },
 
   scrollContent: {

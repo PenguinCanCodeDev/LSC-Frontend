@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     },
     optionText: {
         fontSize: 15,
-        color: "#C9C9C9",
+        color: "#326BFE",
         fontWeight: "600",
     },
     optionTextSelected: {

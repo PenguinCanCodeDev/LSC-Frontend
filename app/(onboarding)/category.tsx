@@ -28,7 +28,7 @@ export default function CategorySelect() {
                 <LSCIcon style={{ alignSelf: 'center', position: 'absolute', top: 40 }} />
                 <View style={styles.successBox}>
                     <CheckIcon />
-                    <Text style={styles.successText}>Welcome aboard,Champion!</Text>
+                    <Text style={styles.successText}>Welcome aboard, Champion!</Text>
                 </View>
             </View>
         </View>
@@ -57,7 +57,7 @@ export default function CategorySelect() {
 
             <View style={{paddingVertical: 15}}>
                 <ProgramChoice
-                 options={["L300", "LSC"]}
+                 options={["Leadership 300 (L300)", "Life Success Centre (LSC)"]}
                  value={program}
                  onValueChange={setProgram}
                 />
@@ -142,11 +142,11 @@ const styles = StyleSheet.create({
      },
 
      successText: {
-        fontSize: 22,
+        fontSize: 24,
         fontWeight: '700',
         textAlign: 'center',
         color: '#111',
-        width: 200
+        maxWidth: 240,
      }
 
 })
